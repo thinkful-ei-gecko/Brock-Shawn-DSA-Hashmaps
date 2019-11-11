@@ -6,10 +6,19 @@ class HashMap {
     this._deleted = 0;
   }
 
+  getValues(){
+    const filter = this._hashTable.filter(obj => {
+      if(obj !== null){
+        return obj;
+      }
+    });
+    return filter.map(obj => obj.value);
+  }
+
   get(key) {
     const index = this._findSlot(key);
     if (this._hashTable[index] === undefined) {
-      throw new Error('Key error');
+      return [];
     }
     return this._hashTable[index].value;
   }
