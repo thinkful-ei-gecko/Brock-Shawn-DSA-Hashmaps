@@ -1,57 +1,9 @@
 const HashMap = require('./hashmaps');
 
-// remove duplicates but keep first occurence
-function dedupe(str) {
-  HashMap.MAX_LOAD_RATIO = 0.5;
-  HashMap.SIZE_RATIO = 3;
-  let testHashMap = new HashMap();
-  for (let i = str.length - 1; i >= 0; i--) {
-    testHashMap.set(str[i], `${i}`);
-  }
-  // console.log(testHashMap);
-  //console.log(JSON.stringify(testHashMap));
-  return testHashMap;
-}
-let string = 'google all that you can think of';
-//console.log(dedupe(string));
-
-function isPal(str){
-  let pal = new HashMap();
-  HashMap.MAX_LOAD_RATIO = 0.5;
-  HashMap.SIZE_RATIO = 3;
-
-  for(let i = 0; i < str.length; i++){
-    pal.set(str[i], 0);
-  }
-
-  for(let i = 0; i < str.length; i++){
-    let counter = pal.get(str[i]) +1;
-    pal.set(str[i], counter);
-  }
-
-  let oddCount = 0;
-  for (let i = 0; i < str.length; i++) {
-    if(pal.get(str[i]) % 2 !== 0) {
-      oddCount++;
-    }
-    console.log(oddCount)
-  }
-
-  if(oddCount > 1) {
-    return false;
-  } else {
-    return true;
-  }
-
-}
-console.log(isPal('tacoocat'));
-
 function main() {
   let lor = new HashMap();
   HashMap.MAX_LOAD_RATIO = 0.5;
   HashMap.SIZE_RATIO = 3;
-
-  //console.log(dedupe('google all that you can think of'));
 
   /* lor.set('Hobbit', 'Bilbo');
   lor.set('Hobbit', 'Frodo');
