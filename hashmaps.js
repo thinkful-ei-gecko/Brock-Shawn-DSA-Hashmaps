@@ -1,3 +1,5 @@
+const LinkedList = require('./ll');
+
 class HashMap {
   constructor(initialCapacity = 8) {
     this.length = 0;
@@ -6,9 +8,9 @@ class HashMap {
     this._deleted = 0;
   }
 
-  getValues(){
+  getValues() {
     const filter = this._hashTable.filter(obj => {
-      if(obj !== null){
+      if (obj !== null) {
         return obj;
       }
     });
@@ -19,6 +21,13 @@ class HashMap {
     const index = this._findSlot(key);
     if (this._hashTable[index] === undefined) {
       return [];
+    }
+    let node = this._hashTable[index].head;
+    while(node){
+      if(node.value.key === key){
+        return node.value;
+      }
+      node = node.next;
     }
     return this._hashTable[index].value;
   }
@@ -32,27 +41,28 @@ class HashMap {
     const index = this._findSlot(key);
 
     if (!this._hashTable[index]) {
+      this._hashTable[index] = new LinkedList();
       this.length++;
     }
-    this._hashTable[index] = {
+    this._hashTable[index].insertBefore({
       key,
       value,
       DELETED: false
-    };
+    });    
   }
 
   delete(key) {
     const index = this._findSlot(key);
     const slot = this._hashTable[index];
     if (slot === undefined) {
-      throw new Error('Key error');
+      throw new Error("Key error");
     }
     slot.DELETED = true;
     this.length--;
     this._deleted++;
   }
 
-  _findSlot(key) {
+  _findSlotopen(key) {
     const hash = HashMap._hashString(key);
     const start = hash % this._capacity;
 
@@ -63,6 +73,25 @@ class HashMap {
         return index;
       }
     }
+  }
+
+  _findSlot(key) {
+    const hash = HashMap._hashString(key);
+    const start = hash % this._capacity;
+
+    const index = start % this._capacity;
+    const slot = this._hashTable[index];
+    return index;
+    /* if(!slot){
+      return index;
+    }
+    let node = slot.head;
+    while(node){
+      if(node.value.key === key){
+        return index;
+      }
+      node = node.next;
+    } */
   }
 
   _resize(size) {
